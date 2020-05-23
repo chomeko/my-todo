@@ -6,45 +6,49 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    fruits: [
-      { id: 1, name: 'りんご', price: 150 }
-    ],
+    fruits: {
+      name: 'りんご'
+    },
+    price: 150,
     basket: [],
+    totalprice: 0
   },
   getters: {
     getFruits(state){
-      return state.fruits
+      return state.fruits.name
     },
-    getCount(state) {
-      return state.basket.count
+    getPrice(state){
+      return state.price
     },
-    //basketの中身
-    getBasket(state) {
+
+    //basketの中身の数
+    getBasketCount(state) {
       return state.basket.length
+    },
+    //合計金額
+    getTotalPrice(state) {
+      return state.totalprice
     }
   },
   mutations: {
-    //税込価格表示 配列の中のpriceを税込価格にしたいがこれだとできてない
-    setPrice(state) {
-      state.fruits.price = state.fruits.price * 1.08
-    },
-    //配列をフィルターしてその中のnameをbasketにpush??
+    //りんごをbasketにpush
     setCount: state => {
-      state.basket.push((state) => {
-        return state.fruits.filter(fruit => fruit.name)
-      })
+      state.basket.push(state.fruits)
+    },
+    //バスケットの数 * 150円 * 消費税
+    setPrice: state => {
+      state.totalprice = Math.floor(state.basket.length * state.price * 1.08)
     }
   },
   actions: {
-    doUpdate(context) {
-      context.commit('setPrice')
-    },
     doUpcount(context) {
       context.commit('setCount')
+    },
+    doUptotal(context) {
+      context.commit('setPrice')
     }
   }
 })
 
 export default store
 
-//配列をフィルターしてその中のnameをbasketにpush

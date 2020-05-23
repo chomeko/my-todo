@@ -1,16 +1,14 @@
 <template>
   <div id="app">
-    <div v-for="item in this.$store.getters.getFruits" :key="item.id">
+    <div>
       <table>
         <dl>
-          <dt>ID</dt>
           <dt>果物</dt>
           <dt>値段</dt>
         </dl>
         <dl>
-          <dd>{{ item.id }}</dd>
-          <dd>{{ item.name }}</dd>
-          <dd>{{ item.price }}</dd>
+          <dd>{{ fruit }}</dd>
+          <dd>{{ price }}</dd>
         </dl>
       </table>
     </div>
@@ -25,25 +23,16 @@ import { mapActions } from 'vuex'
   export default {
     name: 'Table',
     computed: {
-      //fruits () {
-      //  return this.$store.getters.getFruits
-      //}
-      //ヘルパーメソッドmapGetters
-      //...mapGetters([
-      //'getPrice'
-      //]),
-
+      fruit () {
+        return this.$store.getters.getFruits
+      },
+      price () {
+        return this.$store.getters.getPrice
+      },
     },
     methods: {
-      //doUpdate(){
-      //  this.$store.dispatch('doUpdate')
-      //},
-      //doUpcount(){
-      //  this.$store.dispatch('doUpcount')
-      //}
       //ヘルパーメソッドmapActions
       ...mapActions([
-        'doUpdate',
         'doUpcount'
       ])
     }

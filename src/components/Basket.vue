@@ -2,22 +2,27 @@
   <div id="app">
     <h2>買い物かご</h2>
     <div class="basket">
-      <p>りんご{{ count }}個</p>
+      <p>{{ count }}個</p>
     </div>
     <p>合計金額{{ price }}</p>
   </div>
 </template>
 
 <script>
+
   export default {
     name: 'Basket',
     computed: {
       price () {
-        //return this.$store.dispatch('doUpdate')
-        return this.$store.getters.getPrice
+        return this.$store.getters.getTotalPrice
       },
       count () {
-        return this.$store.getters.getBasket
+        return this.$store.getters.getBasketCount
+      }
+    },
+    watch: {
+      count() {
+        this.$store.dispatch('doUptotal')
       }
     }
   }
