@@ -1,28 +1,27 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>俺のMYとぅーどぅー</h1>
+    <Table />
+    <Basket />
   </div>
 </template>
 
+<style lang="sass" scoped>
+  h1
+    font-size: 30px
+    text-align: center
+</style>
+
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import Table from "./components/Table";
+import Basket from "./components/Basket"
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Table,
+    Basket
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
