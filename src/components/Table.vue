@@ -32,6 +32,7 @@ import { mapActions } from 'vuex'
       //...mapGetters([
       //'getPrice'
       //]),
+
     },
     methods: {
       //doUpdate(){
