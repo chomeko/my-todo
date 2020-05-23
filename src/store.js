@@ -9,24 +9,30 @@ const store = new Vuex.Store({
     fruits: [
       { id: 1, name: 'りんご', price: 150 }
     ],
-    count: 0
+    basket: [],
   },
   getters: {
     getFruits(state){
       return state.fruits
     },
     getCount(state) {
-      return state.count
+      return state.basket.count
     },
+    //basketの中身
+    getBasket(state) {
+      return state.basket.length
+    }
   },
   mutations: {
     //税込価格表示 配列の中のpriceを税込価格にしたいがこれだとできてない
     setPrice(state) {
       state.fruits.price = state.fruits.price * 1.08
     },
-    //これだとただカウント数増やしてるだけ
-    setCount(state) {
-      state.count += 1
+    //配列をフィルターしてその中のnameをbasketにpush??
+    setCount: state => {
+      state.basket.push((state) => {
+        return state.fruits.filter(fruit => fruit.name)
+      })
     }
   },
   actions: {
@@ -41,4 +47,4 @@ const store = new Vuex.Store({
 
 export default store
 
-
+//配列をフィルターしてその中のnameをbasketにpush

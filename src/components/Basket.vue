@@ -17,7 +17,7 @@
         return this.$store.getters.getPrice
       },
       count () {
-        return this.$store.getters.getCount
+        return this.$store.getters.getBasket
       }
     }
   }
