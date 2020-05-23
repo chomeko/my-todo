@@ -3,6 +3,9 @@
     <h1>俺のMYとぅーどぅー</h1>
     <Table />
     <Basket />
+    <div class="class">ここからtodo</div>
+    <Edit />
+    <Todolist />
   </div>
 </template>
 
@@ -14,14 +17,18 @@
 
 <script>
 
-import Table from "./components/Table";
+import Table from "./components/Table"
 import Basket from "./components/Basket"
+import Todolist from './components/Todolist'
+import Edit from './components/Edit'
 
 export default {
   name: 'App',
   components: {
     Table,
-    Basket
+    Basket,
+    Edit,
+    Todolist
   }
 }
 </script>
