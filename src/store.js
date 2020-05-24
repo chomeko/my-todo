@@ -6,72 +6,59 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    fruits: {
-      name: 'りんご'
-    },
-    price: 150,
-    basket: [],
-    totalprice: 0,
-    //ここからTODO
     todos: [
-      { id: 1, coment: 'テキストテスト', done: false},
-      { id: 2, coment: '2個目のテキストテスト', done: false},
-      { id: 3, coment: '3個目のテキストテスト', done: false}
     ],
+    options: [
+      { value: -1, label: '全て' },
+      { value: 0, label: '作業中' },
+      { value: 1, label: '完了' },
+    ]
   },
   getters: {
-    getFruits(state){
-      return state.fruits.name
-    },
-    getPrice(state){
-      return state.price
-    },
-
-    //basketの中身の数
-    getBasketCount(state) {
-      return state.basket.length
-    },
-    //合計金額
-    getTotalPrice(state) {
-      return state.totalprice
-    },
-    //ここからTODOのgetters
     getTodolist(state) {
       return state.todos
+    },
+    getOptions(state) {
+      return state.options
     }
   },
   mutations: {
-    //りんごをbasketにpush
-    setCount: state => {
-      state.basket.push(state.fruits)
-    },
-    //バスケットの数 * 150円 * 消費税
-    setPrice: state => {
-      state.totalprice = Math.floor(state.basket.length * state.price * 1.08)
-    },
-    //ここからTODOリスト
+    //タスクを追加
     setAdd(state, coment) {
       var todo = {
-        id: 0,
+        id: 1,
         coment: coment.value,
-        done: false
+        status: 0
       }
       if (state.todos.length !== 0) {
         todo.id = state.todos[state.todos.length -1].id + 1
       }
       state.todos.push(todo)
+    },
+    //状態を切り替える
+    setStatus(state, id) {
+      //Index番号が一致するものを配列から探す
+      const index = state.todos.findIndex(todo => todo.id === id)
+      state.todos[index].status = state.todos[index].status ? 0 : 1
+    },
+    //一致したIndex番号を削除
+    Delete(state, id) {
+      const index = state.todos.findIndex(todo => todo.id === id)
+      state.todos.splice(index, 1)
     }
   },
   actions: {
-    doUpcount(context) {
-      context.commit('setCount')
-    },
-    doUptotal(context) {
-      context.commit('setPrice')
-    },
-    //ここからTODOリスト
+    //タスクの追加
     doAdd(context, todo) {
       context.commit('setAdd',todo.coment)
+    },
+    //状態の変化
+    doChange(context, id) {
+      context.commit('setStatus', id)
+    },
+    //削除
+    doRemove(context, id) {
+      context.commit('Delete', id)
     }
   }
 })

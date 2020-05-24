@@ -15,10 +15,10 @@
           <th class="id">{{ todo.id }}</th>
           <td class="coment">{{ todo.coment }}</td>
           <td class="state">
-            <button>未</button>
+            <button @click="doChange(todo.id)">{{todo.status}}</button>
           </td>
           <td>
-            <button>削除</button>
+            <button @click="doRemove(todo.id)">削除</button>
           </td>
         </tr>
       </tbody>
@@ -27,8 +27,23 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-  name: 'Todolist'
+  name: 'Todolist',
+  computed:{
+    //labels () {
+    //  //reduceで合計値を出す
+    //  return this.$store.getters.getOptions.reduce((a,b) => {
+    //    return Object.assign(a, {[b.value] : b.label})
+    //  },{})
+    //}
+  },
+  methods:{
+    ...mapActions([
+      "doChange",
+      "doRemove"
+    ])
+  },
 }
 </script>
 

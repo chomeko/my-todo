@@ -1,9 +1,6 @@
 <template>
   <div id="app">
     <h1>俺のMYとぅーどぅー</h1>
-    <Table />
-    <Basket />
-    <div class="class">ここからtodo</div>
     <Edit />
     <Todolist />
   </div>
@@ -11,22 +8,18 @@
 
 <style lang="sass" scoped>
   h1
-    font-size: 30px
+    font-size: 32px
     text-align: center
+    margin: 40px 0
 </style>
 
 <script>
-
-import Table from "./components/Table"
-import Basket from "./components/Basket"
 import Todolist from './components/Todolist'
 import Edit from './components/Edit'
 
 export default {
   name: 'App',
   components: {
-    Table,
-    Basket,
     Edit,
     Todolist
   }
