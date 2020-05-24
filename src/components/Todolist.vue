@@ -1,5 +1,10 @@
 <template>
   <div id="app">
+    <label v-for="label in getOptions" :key="label.value">
+      <input type="radio"
+        v-model="current"
+        v-bind:value="label.value">{{ label.label }}
+    </label>
     <h2>することリスト</h2>
     <table>
       <thead>
@@ -10,8 +15,9 @@
           <th class="button">-</th>
         </tr>
       </thead>
-      <tbody v-for="todo in this.$store.getters.getTodolist" :key="todo.id">
-        <tr>
+      <tbody>
+        <!-- getTodolistから絞り込み用にcomputedTodosに変えた -->
+        <tr v-for="todo in computedTodos" :key="todo.id">
           <th class="id">{{ todo.id }}</th>
           <td class="coment">{{ todo.coment }}</td>
           <td class="state">
@@ -27,10 +33,39 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Todolist',
+  data(){
+    return {
+      disp: "-1"
+    }
+  },
   computed:{
+    ...mapGetters([
+      'getTodolist',
+      'getOptions',
+      'getCurrent'
+    ]),
+    //双方向バインディングでゲッターとセッターを指定
+    //セッターは引数を直接ミューテーションにコミット
+    current: {
+      get(){
+        return this.getCurrent
+      },
+      set(value){
+        this.$store.commit('setCurrent', value)
+      }
+    },
+    //絞り込み用のTODOリストを作成
+    computedTodos(){
+      //Todoをフィルターで検索しアロー関数でcurrentが
+      //０より小さければすべてのタスクを表示
+      //それ以外はcurrentとtodo.statusが等しいタスクを表示
+      return this.getTodolist.filter((el) => {
+        return this.getCurrent < 0 ? true : this.getCurrent === el.status
+      },this)
+    }
     //labels () {
     //  //reduceで合計値を出す
     //  return this.$store.getters.getOptions.reduce((a,b) => {

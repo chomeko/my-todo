@@ -6,21 +6,28 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    todos: [
-    ],
+    todos: [],
+    //状態用
     options: [
       { value: -1, label: '全て' },
       { value: 0, label: '作業中' },
       { value: 1, label: '完了' },
-    ]
+    ],
+    current: -1
   },
   getters: {
     getTodolist(state) {
       return state.todos
     },
+    //label用
     getOptions(state) {
       return state.options
+    },
+    //current用
+    getCurrent(state) {
+      return state.current
     }
+
   },
   mutations: {
     //タスクを追加
@@ -40,6 +47,10 @@ const store = new Vuex.Store({
       //Index番号が一致するものを配列から探す
       const index = state.todos.findIndex(todo => todo.id === id)
       state.todos[index].status = state.todos[index].status ? 0 : 1
+    },
+    //双方向バインディングでcurrentを書き換える
+    setCurrent(state, value) {
+      state.current = value
     },
     //一致したIndex番号を削除
     Delete(state, id) {
