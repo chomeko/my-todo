@@ -38,4 +38,6 @@ export default {
   input
     width: 300px
     margin: 20px 0
+  button
+    margin-left: 10px
 </style>

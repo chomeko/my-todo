@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import Vue from 'vue'
 import Vuex from 'vuex'
+import moment from 'moment'
 
 Vue.use(Vuex)
 
@@ -10,8 +11,8 @@ const store = new Vuex.Store({
     //状態用
     options: [
       { value: -1, label: '全て' },
-      { value: 0, label: '作業中' },
-      { value: 1, label: '完了' },
+      { value: 0, label: '未' },
+      { value: 1, label: '完' },
     ],
     current: -1
   },
@@ -35,7 +36,8 @@ const store = new Vuex.Store({
       var todo = {
         id: 1,
         coment: coment.value,
-        status: 0
+        status: 0,
+        day: moment().format()
       }
       if (state.todos.length !== 0) {
         todo.id = state.todos[state.todos.length -1].id + 1

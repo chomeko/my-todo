@@ -9,7 +9,7 @@
     <table>
       <thead>
         <tr>
-          <th class="id">ID</th>
+          <th class="day">日付</th>
           <th class="coment">すること</th>
           <th class="state">状態</th>
           <th class="button">-</th>
@@ -18,13 +18,15 @@
       <tbody>
         <!-- getTodolistから絞り込み用にcomputedTodosに変えた -->
         <tr v-for="todo in computedTodos" :key="todo.id">
-          <th class="id">{{ todo.id }}</th>
+          <th class="day">{{ todo.day | moment }}</th>
           <td class="coment">{{ todo.coment }}</td>
           <td class="state">
-            <button @click="doChange(todo.id)">{{todo.status}}</button>
+            <!-- 状態を日本語に変えた -->
+            <button class="btn status" @click='doChange(todo.id)'>{{labels[todo.status]}}</button>
           </td>
           <td>
-            <button @click="doRemove(todo.id)">削除</button>
+            <button class="btn update" >編集</button>
+            <button class="btn delete" @click="doRemove(todo.id)">削除</button>
           </td>
         </tr>
       </tbody>
@@ -34,11 +36,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import moment from 'moment'
 export default {
   name: 'Todolist',
-  data(){
-    return {
-      disp: "-1"
+  filters: {
+    moment: function (date) {
+      return moment(date).format('YYYY年MM月DD日');
     }
   },
   computed:{
@@ -65,13 +68,17 @@ export default {
       return this.getTodolist.filter((el) => {
         return this.getCurrent < 0 ? true : this.getCurrent === el.status
       },this)
+    },
+    labels () {
+      //reduceで合計値を出す
+      //{ value: -1, label: '全て' },
+      //{ value: 0, label: '作業中' },
+      //{ value: 1, label: '完了' },
+      return this.$store.getters.getOptions.reduce((a,b) => {
+        // {0: '作業中', 1: '完了', -1: 'すべて'}
+        return Object.assign(a, {[b.value] : b.label})
+      },{})
     }
-    //labels () {
-    //  //reduceで合計値を出す
-    //  return this.$store.getters.getOptions.reduce((a,b) => {
-    //    return Object.assign(a, {[b.value] : b.label})
-    //  },{})
-    //}
   },
   methods:{
     ...mapActions([
@@ -84,7 +91,7 @@ export default {
 
 <style lang="sass" scoped>
   #app
-    max-width: 640px
+    max-width: 767px
     margin: 0 auto
   h2
     text-align: center
@@ -92,35 +99,50 @@ export default {
     width: 100%
     border-collapse: collapse
   thead th
-    border-bottom: 2px solid #0c19ce
-    color: #0c19ce
+    border: 2px solid #333
+    background: yellow
+    color: #333
   th
     padding: 0 8px
     line-height: 40px
-  thead th.id
-    width: 50px
+  thead th.day
+    width: 140px
   thead th.state
-    width: 100px
+    width: 90px
   thead th.button
-    width: 60px
+    width: 80px
 
   tbody
     text-align: center
   tbody tr td,
   tbody tr th
-    border-bottom: 1px solid #ccc
+    border: 2px solid #333
     transition: all 0.4s
   tbody tr:hover td,
   tbody tr:hover th
-    background: #f4fbff
+    background: #00ffff
 
-  button
+  .btn
     border: none
-    border-radius: 20px
-    line-height: 24px
     padding: 0 8px
-    background: #0c19ce
-    color: #fff
     cursor: pointer
+    &.status
+      border-radius: 20px
+      line-height: 24px
+      color: #0000ff
+      font-size: 18px
+    &.update
+      border-radius: 5px
+      font-size: 12px
+      padding: 1px
+      background: #ff00ff
+      color: #fff
+      margin-right: 15px
+    &.delete
+      border-radius: 5px
+      font-size: 12px
+      padding: 1px
+      background: #ff0000
+      color: #fff
 
 </style>
