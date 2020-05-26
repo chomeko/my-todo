@@ -1,16 +1,21 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-import Table from './components/Table.vue'
+import VueRouter from 'vue-router'
+import Add from './components/Add.vue'
+import Edit from './components/edit.vue'
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
-const router = new Vue({
+const router = new VueRouter({
+  mode: 'history',
   base: 'my-toto',
-  mode: history,
-  routers: [
+  routes: [
     {
       path: '/',
-      component: Table
+      component: Add,
+    },
+    {
+      path: '/edit/:id',
+      component: Edit,
     }
   ]
 })

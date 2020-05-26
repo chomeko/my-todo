@@ -25,7 +25,7 @@
             <button class="btn status" @click='doChange(todo.id)'>{{labels[todo.status]}}</button>
           </td>
           <td>
-            <button class="btn update" >編集</button>
+            <button class="btn update" @click.stop="$router.push(`/edit/${todo.id}`)">編集</button>
             <button class="btn delete" @click="doRemove(todo.id)">削除</button>
           </td>
         </tr>
@@ -38,7 +38,9 @@
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 export default {
+  props: { id: Number },
   name: 'Todolist',
+  //momentのフォーマット設定
   filters: {
     moment: function (date) {
       return moment(date).format('YYYY年MM月DD日');
@@ -83,7 +85,8 @@ export default {
   methods:{
     ...mapActions([
       "doChange",
-      "doRemove"
+      "doRemove",
+      "doUpdate"
     ])
   },
 }

@@ -27,6 +27,9 @@ const store = new Vuex.Store({
     //current用
     getCurrent(state) {
       return state.current
+    },
+    getTodoById: state => id => {
+      return state.todos.find(todo => todo.id === id);
     }
 
   },
@@ -58,6 +61,11 @@ const store = new Vuex.Store({
     Delete(state, id) {
       const index = state.todos.findIndex(todo => todo.id === id)
       state.todos.splice(index, 1)
+    },
+    //一致したIndex番号を編集
+    Update(state, id, comment) {
+      const index = state.todos.findIndex(todo => todo.id === id)
+      this.state.todo[index].comment = comment
     }
   },
   actions: {
@@ -72,6 +80,10 @@ const store = new Vuex.Store({
     //削除
     doRemove(context, id) {
       context.commit('Delete', id)
+    },
+    //編集
+    doUpdate(context, todo) {
+      context.commit('Update', todo)
     }
   }
 })
