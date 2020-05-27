@@ -25,7 +25,7 @@
             <button class="btn status" @click='doChange(todo.id)'>{{labels[todo.status]}}</button>
           </td>
           <td>
-            <button class="btn update" @click.stop="$router.push(`/edit/${todo.id}`)">編集</button>
+            <router-link :to="`/edit/${todo.id}`">編集</router-link>
             <button class="btn delete" @click="doRemove(todo.id)">削除</button>
           </td>
         </tr>

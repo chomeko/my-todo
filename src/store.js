@@ -63,9 +63,10 @@ const store = new Vuex.Store({
       state.todos.splice(index, 1)
     },
     //一致したIndex番号を編集
-    Update(state, id, comment) {
-      const index = state.todos.findIndex(todo => todo.id === id)
-      this.state.todo[index].comment = comment
+    Update(state, payload) {
+      state.todos.findIndex(todo => todo.id === payload.id)
+      state.todos.comment = payload.value
+      //console.log(payload)
     }
   },
   actions: {
@@ -82,8 +83,8 @@ const store = new Vuex.Store({
       context.commit('Delete', id)
     },
     //編集
-    doUpdate(context, todo) {
-      context.commit('Update', todo)
+    doUpdate(context, payload) {
+      context.commit('Update', payload)
     }
   }
 })

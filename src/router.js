@@ -10,12 +10,14 @@ const router = new VueRouter({
   base: 'my-toto',
   routes: [
     {
+      name: 'home',
       path: '/',
-      component: Add,
+      component: Add
     },
     {
       path: '/edit/:id',
       component: Edit,
+      props: route => ({ id: Number(route.params.id)})
     }
   ]
 })
