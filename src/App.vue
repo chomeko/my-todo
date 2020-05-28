@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <h1>俺のMYとぅーどぅー</h1>
-    <!-- <router-link to="/">編集</router-link> -->
     <router-view />
   </div>
 </template>

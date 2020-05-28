@@ -1,36 +1,38 @@
 <template>
   <div id="app">
-    <h2>タスクの追加</h2>
+    <h2>作業を追加する</h2>
     <!-- .preventで消えないようにする -->
     <!-- 何かしらのアラートを追加する予定 -->
-    <form class="add-form" v-on:submit.prevent="doAdd">
-      <input type="text" ref="coment">
-      <button type="submit">追加</button>
-    </form>
+    <EditForm :coment.sync="coment" @submit="add"/>
     <Todolist />
   </div>
 </template>
 
 <script>
+import EditForm from './EditForm'
 import Todolist from './Todolist'
 
 export default {
   name: 'Edit',
   components: {
+    EditForm,
     Todolist
   },
+  data(){
+    return{
+      coment: ''
+    }
+  },
   methods: {
-    doAdd(){
-      //ref属性を変数に入れる
-      var coment = this.$refs.coment
-      //空入力ならそのまま返す
-      if(coment.value === '' ){
+    add(){
+      let todo = {
+        coment: this.coment
+      }
+      if(this.coment === ''){
         return
       }
-      //actionにコメントを送る
-      this.$store.dispatch('doAdd', {coment: coment})
-      //最後に空にする
-      coment.value = ''
+      this.$store.dispatch('doAdd', todo)
+      this.coment = ''
     }
   }
 }
@@ -41,9 +43,4 @@ export default {
     text-align: center
   h2
     text-align: center
-  input
-    width: 300px
-    margin: 20px 0
-  button
-    margin-left: 10px
 </style>

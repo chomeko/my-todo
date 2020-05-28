@@ -28,6 +28,7 @@ const store = new Vuex.Store({
     getCurrent(state) {
       return state.current
     },
+    //引数idを受け取って検索
     getTodoById: state => id => {
       return state.todos.find(todo => todo.id === id);
     }
@@ -35,10 +36,10 @@ const store = new Vuex.Store({
   },
   mutations: {
     //タスクを追加
-    setAdd(state, coment) {
+    setAdd(state, {coment}) {
       var todo = {
         id: 1,
-        coment: coment.value,
+        coment: coment,
         status: 0,
         day: moment().format()
       }
@@ -59,20 +60,23 @@ const store = new Vuex.Store({
     },
     //一致したIndex番号を削除
     Delete(state, id) {
-      const index = state.todos.findIndex(todo => todo.id === id)
-      state.todos.splice(index, 1)
+      if (confirm('削除しますか？')) {
+        const index = state.todos.findIndex(todo => todo.id === id)
+        state.todos.splice(index, 1)
+      }else { return }
     },
     //一致したIndex番号を編集
-    Update(state, payload) {
-      state.todos.findIndex(todo => todo.id === payload.id)
-      state.todos.comment = payload.value
-      //console.log(payload)
+    Update(state, { id, coment }) {
+      const index = state.todos.findIndex(todo => todo.id === id)
+      if (index >= 0) {
+        state.todos[index].coment = coment
+      }
     }
   },
   actions: {
     //タスクの追加
     doAdd(context, todo) {
-      context.commit('setAdd',todo.coment)
+      context.commit('setAdd',todo)
     },
     //状態の変化
     doChange(context, id) {
@@ -83,8 +87,8 @@ const store = new Vuex.Store({
       context.commit('Delete', id)
     },
     //編集
-    doUpdate(context, payload) {
-      context.commit('Update', payload)
+    doUpdate(context, todo) {
+      context.commit('Update', todo)
     }
   }
 })
