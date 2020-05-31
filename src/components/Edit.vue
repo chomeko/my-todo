@@ -6,7 +6,8 @@
     <h2>内容を編集する</h2>
     <dl>
       <dt class="coment">{{ coment }}</dt>
-      <dt>{{ timelimit }}</dt>
+      <dt class="timelimit" v-if="timelimit === ''">期限なし</dt>
+      <dt class="timelimit" v-else>期限は{{ timelimit }}</dt>
     </dl>
   </div>
 </template>
@@ -72,6 +73,7 @@ export default {
     align-items: center
     justify-content: center
     margin-bottom: 20px
+    position: relative
     .coment
       display: flex
       align-items: center
@@ -80,4 +82,12 @@ export default {
       line-height: 30px
       height: 80px
       padding: 5px
+    .timelimit
+      font-family: 'Miltonian Tattoo', cursive
+      text-decoration: underline
+      position: absolute
+      bottom: 5%
+      left: 5%
+      transform: translate(-5%, -5%)
+
 </style>
