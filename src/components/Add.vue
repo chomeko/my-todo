@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <p class="error">{{ Validation.error }}</p>
-    <EditForm :coment.sync="coment" @submit="add"/>
+    <EditForm :coment.sync="coment" :timelimit.sync="timelimit" @submit="add"/>
     <Todolist />
   </div>
 </template>
@@ -19,6 +19,7 @@ export default {
   data(){
     return{
       coment: '',
+      timelimit: '',
       Validation: {
         error: ""
       }
@@ -27,7 +28,8 @@ export default {
   methods: {
     add(){
       let todo = {
-        coment: this.coment
+        coment: this.coment,
+        timelimit: this.timelimit
       }
       if(this.coment === ''){
         this.Validation.error = "空白は追加できません"
@@ -38,6 +40,7 @@ export default {
       }
       this.$store.dispatch('doAdd', todo)
       this.coment = ''
+      this.timelimit = ''
       this.Validation.error = ""
     }
   }

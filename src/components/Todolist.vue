@@ -12,9 +12,13 @@
           <dt class="chagecolor" @click="doChange(todo.id)"></dt>
           <dt class="day">{{ todo.day | moment }}</dt>
           <dt class="coment">{{ todo.coment }}</dt>
-          <dt class="button__wrapper">
-            <button class="btn update" @click.stop="$router.push(`/edit/${todo.id}`)">編集</button>
-            <button class="btn delete" @click="doRemove(todo.id)">削除</button>
+          <dt class="list__footer">
+            <p v-if="todo.timelimit === ''">期限なし</p>
+            <p v-else>期限は{{ todo.timelimit }}</p>
+            <div class="btn__wrapper">
+              <button class="btn update" @click.stop="$router.push(`/edit/${todo.id}`)">編集</button>
+              <button class="btn delete" @click="doRemove(todo.id)">削除</button>
+            </div>
           </dt>
         </dl>
       </transition-group>
@@ -29,7 +33,7 @@ export default {
   name: 'Todolist',
   data(){
     return{
-      message: false
+      timelimit: false
     }
   },
   //momentのフォーマット設定
@@ -62,7 +66,7 @@ export default {
       return this.getTodolist.filter((el) => {
         return this.getCurrent < 0 ? true : this.getCurrent === el.status
       },this)
-    },
+    }
     //labels () {
     //  //reduceで合計値を出す
     //  //{ value: -1, label: '全て' },
@@ -97,6 +101,10 @@ export default {
     cursor: pointer
     border: 3px solid #333
     margin: 10px
+    &:nth-of-type(2)
+      background: #83AF9B
+    &:nth-of-type(3)
+      background: #FE4365
     &:hover
       color: #fff
       background: #333
@@ -140,12 +148,21 @@ export default {
     top: 50%
     left: 50%
     transform: translate(-50%, -50%)
-  .button__wrapper
+  .list__footer
     position: absolute
     bottom: 2%
     left: 50%
     transform: translate(-50%, -2%)
     z-index: 10
+    display: flex
+    align-items: bottom
+    justify-content: space-between
+    width: 100%
+  p
+    margin-left: 8px
+    text-decoration: underline
+    color: #333
+    font-family: 'Miltonian Tattoo', cursive
   .btn
     border: none
     padding: 0 8px
@@ -157,11 +174,12 @@ export default {
     color: #333
     &.update
       background: #F9CDAD
-      margin-right: 15px
+      //margin-right: 15px
       &:hover
         background: none
     &.delete
       background: #FC9D9A
+      margin: 0 8px
       &:hover
         background: none
 

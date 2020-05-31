@@ -2,10 +2,12 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import moment from 'moment'
+import createPersistedState from "vuex-persistedstate"
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+  plugins: [createPersistedState({key: 'todolist'})],
   state: {
     todos: [],
     //状態用
@@ -36,13 +38,14 @@ const store = new Vuex.Store({
   },
   mutations: {
     //タスクを追加
-    setAdd(state, {coment}) {
+    setAdd(state, {coment, timelimit}) {
       var todo = {
         id: 1,
         coment: coment,
         status: 0,
         isActive: false,
-        day: moment().format()
+        day: moment().format(),
+        timelimit: timelimit
       }
       if (state.todos.length !== 0) {
         todo.id = state.todos[state.todos.length -1].id + 1
@@ -68,10 +71,11 @@ const store = new Vuex.Store({
       }else { return }
     },
     //一致したIndex番号を編集
-    Update(state, { id, coment }) {
+    Update(state, { id, coment, timelimit}) {
       const index = state.todos.findIndex(todo => todo.id === id)
       if (index >= 0) {
         state.todos[index].coment = coment
+        state.todos[index].timelimit = timelimit
       }
     }
   },

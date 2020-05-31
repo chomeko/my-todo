@@ -2,10 +2,11 @@
   <div id="app">
     <!-- EditFormからupdate:プロパティネームを受け取ってローカルデータを更新できる -->
     <p class="error">{{ Validation.error }}</p>
-    <edit-form :coment.sync="coment" @submit="edit" edit/>
+    <edit-form :coment.sync="coment" :timelimit.sync="timelimit" @submit="edit" edit/>
     <h2>内容を編集する</h2>
     <dl>
       <dt class="coment">{{ coment }}</dt>
+      <dt>{{ timelimit }}</dt>
     </dl>
   </div>
 </template>
@@ -21,6 +22,7 @@ export default {
     return {
       // ローカルデータ
       coment: this.$store.getters.getTodoById(Number(this.$route.params.id)).coment,
+      timelimit: this.$store.getters.getTodoById(Number(this.$route.params.id)).timelimit,
       Validation: {
         error: ""
       }
@@ -31,6 +33,7 @@ export default {
       let todo = {
         id: Number(this.$route.params.id),
         coment: this.coment,
+        timelimit: this.timelimit
       }
       if(this.coment === ''){
         this.Validation.error = "空白は追加できません"
@@ -48,6 +51,7 @@ export default {
         return
       }
       this.coment = todo.coment
+      this.timelimit
     }
   }
 }
