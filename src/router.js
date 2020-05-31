@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Add from './components/Add.vue'
-import Edit from './components/edit.vue'
+import Edit from './components/Edit.vue'
 
 Vue.use(VueRouter)
 
@@ -16,7 +16,7 @@ const router = new VueRouter({
     },
     {
       path: '/edit/:id',
-      component: Edit,
+      component: Edit
     }
   ]
 })
