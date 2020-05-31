@@ -53,6 +53,7 @@ export default {
     text-align: center
   input
     width: 300px
+    height: 32px
     border: 3px solid #333
     margin: 20px 5px
     @media screen and (max-width: 480px)
