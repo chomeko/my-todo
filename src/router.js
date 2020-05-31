@@ -17,7 +17,6 @@ const router = new VueRouter({
     {
       path: '/edit/:id',
       component: Edit,
-      //props: route => ({ id: Number(route.params.id)})
     }
   ]
 })

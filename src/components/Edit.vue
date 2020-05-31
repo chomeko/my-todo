@@ -2,7 +2,7 @@
   <div id="app">
     <!-- EditFormからupdate:プロパティネームを受け取ってローカルデータを更新できる -->
     <p class="error">{{ Validation.error }}</p>
-    <edit-form :coment.sync="coment" :timelimit.sync="timelimit" @submit="edit" edit/>
+    <EditForm :coment.sync="coment" :timelimit.sync="timelimit" @submit="edit" edit/>
     <h2>内容を編集する</h2>
     <dl>
       <dt class="coment">{{ coment }}</dt>
