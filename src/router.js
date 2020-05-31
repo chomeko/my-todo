@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  base: 'my-toto',
+  base: 'my-todo',
   routes: [
     {
       name: 'home',
