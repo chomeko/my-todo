@@ -1,7 +1,7 @@
 <template>
   <div class="edit-form">
     <input type="text" id="coment" v-model="UpdateComent" placeholder="タスクを追加">
-    <input type="date" id="timelimit" v-model="UpdateTimeLimit">
+    <input type="date" id="timelimit" v-model="UpdateTimeLimit" placeholder="年/月/日">
     <button @click="$emit('submit')">{{buttonText}}</button>
   </div>
 </template>
