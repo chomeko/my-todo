@@ -1,6 +1,5 @@
 <template>
   <div class="edit-form">
-    <label for="coment">入力</label>
     <input type="text" id="coment" v-model="UpdateComent">
     <button @click="$emit('submit')">{{buttonText}}</button>
   </div>
@@ -38,13 +37,24 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+  .edit-form
+    text-align: center
   input
     width: 300px
+    border: 3px solid #333
     margin: 20px 0
+    @media screen and (max-width: 480px)
+      margin: 10px 0
+  input[type=text]
+    &:focus
+      background: #F9CDAD
   button
     margin-left: 10px
-    border: 1px solid #000
-    border-radius: 5px
+    border: 3px solid #333
     padding: 5px
+    &:hover
+      background: #F9CDAD
+    @media screen and (max-width: 350px)
+      margin-left: 0
 </style>
 

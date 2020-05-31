@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <h2>タスク{{$route.params.id}}の編集</h2>
     <!-- EditFormからupdate:プロパティネームを受け取ってローカルデータを更新できる -->
+    <p class="error">{{ Validation.error }}</p>
     <edit-form :coment.sync="coment" @submit="edit" edit/>
+    <h2>内容を編集する</h2>
     <dl>
-      <dt>編集内容</dt>
-      <dd>{{ coment }}</dd>
+      <dt class="coment">{{ coment }}</dt>
     </dl>
   </div>
 </template>
@@ -20,7 +20,10 @@ export default {
   data(){
     return {
       // ローカルデータ
-      coment: this.$store.getters.getTodoById(Number(this.$route.params.id)).coment
+      coment: this.$store.getters.getTodoById(Number(this.$route.params.id)).coment,
+      Validation: {
+        error: ""
+      }
     }
   },
   methods:{
@@ -29,7 +32,11 @@ export default {
         id: Number(this.$route.params.id),
         coment: this.coment,
       }
-      if (this.coment === ''){
+      if(this.coment === ''){
+        this.Validation.error = "空白は追加できません"
+        return
+      }else if(this.coment.length > 40){
+        this.Validation.error = "４０文字以下にしてください"
         return
       }
       this.$store.dispatch("doUpdate", todo)
@@ -47,17 +54,26 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+  h2
+    text-align: center
+    margin-bottom: 20px
   dl
+    width: 330px
+    height: 150px
     margin-top: 10px
-    dt
-      text-align: center
-      width: 100px
-      border: 2px solid #333
-      background: yellow
-      color: #333
-    dd
-      margin-top: 10px
-      line-height: 40px
-      width: 350px
-      border-bottom: 2px solid #000000
+    border: 3px solid #333
+    margin: auto
+    background: #83AF9B
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-bottom: 20px
+    .coment
+      display: flex
+      align-items: center
+      justify-content: center
+      font-weight: bold
+      line-height: 30px
+      height: 80px
+      padding: 5px
 </style>

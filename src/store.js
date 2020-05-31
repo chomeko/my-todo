@@ -11,8 +11,8 @@ const store = new Vuex.Store({
     //状態用
     options: [
       { value: -1, label: '全て' },
-      { value: 0, label: '未' },
-      { value: 1, label: '完' },
+      { value: 0, label: '未完了' },
+      { value: 1, label: '完了' },
     ],
     current: -1
   },
@@ -41,6 +41,7 @@ const store = new Vuex.Store({
         id: 1,
         coment: coment,
         status: 0,
+        isActive: false,
         day: moment().format()
       }
       if (state.todos.length !== 0) {
@@ -53,6 +54,7 @@ const store = new Vuex.Store({
       //Index番号が一致するものを配列から探す
       const index = state.todos.findIndex(todo => todo.id === id)
       state.todos[index].status = state.todos[index].status ? 0 : 1
+      state.todos[index].isActive = !state.todos[index].isActive
     },
     //双方向バインディングでcurrentを書き換える
     setCurrent(state, value) {

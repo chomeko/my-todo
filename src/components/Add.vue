@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <h2>作業を追加する</h2>
-    <!-- .preventで消えないようにする -->
-    <!-- 何かしらのアラートを追加する予定 -->
+    <p class="error">{{ Validation.error }}</p>
     <EditForm :coment.sync="coment" @submit="add"/>
     <Todolist />
   </div>
@@ -20,7 +18,10 @@ export default {
   },
   data(){
     return{
-      coment: ''
+      coment: '',
+      Validation: {
+        error: ""
+      }
     }
   },
   methods: {
@@ -29,18 +30,23 @@ export default {
         coment: this.coment
       }
       if(this.coment === ''){
+        this.Validation.error = "空白は追加できません"
+        return
+      }else if(this.coment.length > 40){
+        this.Validation.error = "４０文字以下にしてください"
         return
       }
       this.$store.dispatch('doAdd', todo)
       this.coment = ''
+      this.Validation.error = ""
     }
   }
 }
 </script>
 
-<style lang="sass" scoped>
-  #app
+<style lang="sass">
+  .error
     text-align: center
-  h2
-    text-align: center
+    margin: 10px 0
+    color: #C7243A
 </style>

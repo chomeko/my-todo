@@ -1,36 +1,24 @@
 <template>
-  <div id="app">
+  <div id="list">
     <label v-for="label in getOptions" :key="label.value">
       <input type="radio"
         v-model="current"
         v-bind:value="label.value">{{ label.label }}
     </label>
-    <h2>することリスト</h2>
-    <table>
-      <thead>
-        <tr>
-          <th class="day">日付</th>
-          <th class="coment">すること</th>
-          <th class="state">状態</th>
-          <th class="button">-</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div class="todolist">
+      <transition-group>
         <!-- getTodolistから絞り込み用にcomputedTodosに変えた -->
-        <tr v-for="todo in computedTodos" :key="todo.id">
-          <th class="day">{{ todo.day | moment }}</th>
-          <td class="coment">{{ todo.coment }}</td>
-          <td class="state">
-            <!-- 状態を日本語に変えた -->
-            <button class="btn status" @click='doChange(todo.id)'>{{labels[todo.status]}}</button>
-          </td>
-          <td>
-            <button @click.stop="$router.push(`/edit/${todo.id}`)">編集</button>
+        <dl v-for="todo in computedTodos" :key="todo.id" :class="{'isActive': todo.isActive}">
+          <dt class="chagecolor" @click="doChange(todo.id)"></dt>
+          <dt class="day">{{ todo.day | moment }}</dt>
+          <dt class="coment">{{ todo.coment }}</dt>
+          <dt class="button__wrapper">
+            <button class="btn update" @click.stop="$router.push(`/edit/${todo.id}`)">編集</button>
             <button class="btn delete" @click="doRemove(todo.id)">削除</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </dt>
+        </dl>
+      </transition-group>
+    </div>
   </div>
 </template>
 
@@ -39,10 +27,15 @@ import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 export default {
   name: 'Todolist',
+  data(){
+    return{
+      message: false
+    }
+  },
   //momentのフォーマット設定
   filters: {
     moment: function (date) {
-      return moment(date).format('YYYY年MM月DD日');
+      return moment(date).format('YYYY/MM/DD');
     }
   },
   computed:{
@@ -70,16 +63,16 @@ export default {
         return this.getCurrent < 0 ? true : this.getCurrent === el.status
       },this)
     },
-    labels () {
-      //reduceで合計値を出す
-      //{ value: -1, label: '全て' },
-      //{ value: 0, label: '作業中' },
-      //{ value: 1, label: '完了' },
-      return this.$store.getters.getOptions.reduce((a,b) => {
-        // {0: '作業中', 1: '完了', -1: 'すべて'}
-        return Object.assign(a, {[b.value] : b.label})
-      },{})
-    }
+    //labels () {
+    //  //reduceで合計値を出す
+    //  //{ value: -1, label: '全て' },
+    //  //{ value: 0, label: '作業中' },
+    //  //{ value: 1, label: '完了' },
+    //  return this.$store.getters.getOptions.reduce((a,b) => {
+    //    // {0: '作業中', 1: '完了', -1: 'すべて'}
+    //    return Object.assign(a, {[b.value] : b.label})
+    //  },{})
+    //}
   },
   methods:{
     ...mapActions([
@@ -87,65 +80,97 @@ export default {
       "doRemove",
       "doUpdate"
     ])
-  },
+  }
 }
 </script>
 
 <style lang="sass" scoped>
-  #app
-    max-width: 767px
+  #list
+    max-width: 1080px
     margin: 0 auto
-  h2
     text-align: center
-  table
-    width: 100%
-    border-collapse: collapse
-    margin-bottom: 80px
-  thead th
-    border: 2px solid #333
-    background: yellow
+    margin-top: 20px
+  label
+    font-size: 18px
+    font-weight: bold
     color: #333
-  th
-    padding: 0 8px
-    line-height: 40px
-  thead th.day
-    width: 140px
-  thead th.state
-    width: 90px
-  thead th.button
-    width: 80px
-
-  tbody
-    text-align: center
-  tbody tr td,
-  tbody tr th
-    border: 2px solid #333
-    transition: all 0.4s
-  tbody tr:hover td,
-  tbody tr:hover th
-    background: #00ffff
-
+    cursor: pointer
+    border: 3px solid #333
+    margin: 10px
+    &:hover
+      color: #fff
+      background: #333
+    input[type="radio" i]
+      display: none
+    input[type=text]
+      &:focus
+        background: #F9CDAD
+  .todolist span
+    width: 100%
+    margin-bottom: 20px
+    justify-content: center
+    flex-wrap: wrap
+    display: flex
+  dl
+    width: 330px
+    height: 150px
+    border: 3px solid #333
+    background: #83AF9B
+    margin: 8px
+    cursor: pointer
+    position: relative
+  .isActive
+    background: #FE4365
+  .day
+    font-family: 'Miltonian Tattoo', cursive
+    color: #FFFFFB
+    font-size: 20px
+  .coment
+    display: flex
+    align-items: center
+    justify-content: center
+    font-weight: bold
+    line-height: 30px
+    height: 80px
+    padding: 5px
+  .chagecolor
+    width: 300px
+    height: 150px
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+  .button__wrapper
+    position: absolute
+    bottom: 2%
+    left: 50%
+    transform: translate(-50%, -2%)
+    z-index: 10
   .btn
     border: none
     padding: 0 8px
     cursor: pointer
-    &.status
-      border-radius: 20px
-      line-height: 24px
-      color: #0000ff
-      font-size: 18px
+    font-size: 12px
+    font-weight: bold
+    border: 3px solid #333
+    padding: 1px
+    color: #333
     &.update
-      border-radius: 5px
-      font-size: 12px
-      padding: 1px
-      background: #ff00ff
-      color: #fff
+      background: #F9CDAD
       margin-right: 15px
+      &:hover
+        background: none
     &.delete
-      border-radius: 5px
-      font-size: 12px
-      padding: 1px
-      background: #ff0000
-      color: #fff
+      background: #FC9D9A
+      &:hover
+        background: none
+
+  /* 表示・非表示アニメーション中 */
+  .v-enter-active, .v-leave-active
+    transition: all 500ms
+
+  /* 表示アニメーション開始時 ・ 非表示アニメーション後 */
+  .v-enter, .v-leave-to
+    opacity: 0
 
 </style>
