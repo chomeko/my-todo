@@ -9,12 +9,15 @@
       <transition-group>
         <!-- getTodolistから絞り込み用にcomputedTodosに変えた -->
         <dl v-for="todo in computedTodos" :key="todo.id" :class="{'isActive': todo.isActive}">
-          <dt class="chagecolor" @click="doChange(todo.id)"></dt>
+          <dt class="chagecolor" @click="doChange(todo.id)" @mouseover="mouseOverAction(todo.id)" @mouseleave="mouseLemoveAction(todo.id)"></dt>
+          <transition>
+            <p class="mouseHover" v-show="hoverComent && todo.id === hoverIndex"></p>
+          </transition>
           <dt class="day">{{ todo.day | moment }}</dt>
           <dt class="coment">{{ todo.coment }}</dt>
           <dt class="list__footer">
-            <p v-if="todo.timelimit === ''">期限なし</p>
-            <p v-else>期限は{{ todo.timelimit }}</p>
+            <p class="timelimit--day" v-if="todo.timelimit === ''">期限なし</p>
+            <p class="timelimit--day" v-else>期限は{{ todo.timelimit }}</p>
             <div class="btn__wrapper">
               <button class="btn update" @click.stop="$router.push(`/edit/${todo.id}`)">編集</button>
               <button class="btn delete" @click="doRemove(todo.id)">削除</button>
@@ -33,7 +36,10 @@ export default {
   name: 'Todolist',
   data(){
     return{
-      timelimit: false
+      timelimit: false,
+      hoverComent: false,
+      hoverIndex: null
+
     }
   },
   //momentのフォーマット設定
@@ -83,7 +89,15 @@ export default {
       "doChange",
       "doRemove",
       "doUpdate"
-    ])
+    ]),
+    mouseOverAction(id){
+      this.hoverComent = true
+      this.hoverIndex = id
+    },
+    mouseLemoveAction(id){
+      this.hoverComent = false
+      this.hoverIndex = id
+    }
   }
 }
 </script>
@@ -129,6 +143,17 @@ export default {
     position: relative
   .isActive
     background: #FE4365
+  .mouseHover
+    position: absolute
+    bottom: -30%
+    left: 70%
+    transform: translate(-70%, 0%)
+    background-image: url(/指差し.png)
+    background-position: center
+    background-size: cover
+    width: 80px
+    height: 80px
+    z-index: 10
   .day
     font-family: 'Miltonian Tattoo', cursive
     color: #FFFFFB
@@ -158,7 +183,7 @@ export default {
     align-items: bottom
     justify-content: space-between
     width: 100%
-  p
+  .timelimit--day
     margin-left: 8px
     height: 20px
     text-decoration: underline
