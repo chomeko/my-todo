@@ -160,8 +160,9 @@ export default {
     width: 100%
   p
     margin-left: 8px
+    height: 20px
     text-decoration: underline
-    color: #333
+    color: #ca324d
     font-family: 'Miltonian Tattoo', cursive
   .btn
     border: none
@@ -174,7 +175,6 @@ export default {
     color: #333
     &.update
       background: #F9CDAD
-      //margin-right: 15px
       &:hover
         background: none
     &.delete

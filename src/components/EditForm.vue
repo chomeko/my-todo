@@ -42,7 +42,7 @@ export default {
       }
     },
     buttonText() {
-      return this.edit ? "編集" : "追加"
+      return this.edit ? "編集完了" : "追加"
     }
   }
 }

@@ -83,6 +83,7 @@ export default {
       height: 80px
       padding: 5px
     .timelimit
+      color: #ca324d
       font-family: 'Miltonian Tattoo', cursive
       text-decoration: underline
       position: absolute
