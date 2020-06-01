@@ -44,7 +44,7 @@ export default {
         return
       }
       this.$store.dispatch("doUpdate", todo)
-      this.$router.push("/")
+      this.$router.replace("/")
     },
     created() {
       const todo = this.$store.getters.getTodoById(Number(this.$route.params.id))
