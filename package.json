@@ -10,7 +10,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "core-js": "^3.6.4",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "sass-loader": "^8.0.2",
     "vue": "^2.6.11",
     "vue-moment": "^4.1.0",
